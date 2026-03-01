@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=6,7 torchrun --nproc_per_node=2 --master_port=3333 train.py dataset=Subway_dataset pretrained=parseq

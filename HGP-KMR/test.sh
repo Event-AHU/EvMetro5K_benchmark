@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=2 python test.py ./outputs/parseq/2025-09-03_16-13-01/checkpoints/epoch=97-step=1764-val_accuracy=95.0893-val_NED=97.5357.ckpt --data_root /media/amax/c08a625b-023d-436f-b33e-9652dc1bc7c02/DATA/wangshiao/subway_MMR/hg_adapter/all_data/

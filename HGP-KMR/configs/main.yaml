@@ -1,0 +1,57 @@
+defaults:
+  - _self_
+  - model: parseq
+  - charset: 10_full
+  - dataset: Subway_dataset
+
+model:
+  _convert_: all
+  img_size: [ 32, 128 ]  # [ height, width ]
+  max_label_length: 10
+  # The ordering in charset_train matters. It determines the token IDs assigned to each character.
+  # charset_train: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+  charset_train: "0123456789"
+  # For charset_test, ordering doesn't matter.
+  # charset_test: "0123456789abcdefghijklmnopqrstuvwxyz"
+  charset_test: "0123456789"
+  # batch_size: 384
+  batch_size: 128
+  weight_decay: 0.0
+  warmup_pct: 0.075  # equivalent to 1.5 epochs of warm up
+
+data:
+  _target_: strhub.data.module.SceneTextDataModule
+  # root_dir: "/wangx/OCR_baseline/parseq_v1/data"
+  root_dir: "/media/amax/c08a625b-023d-436f-b33e-9652dc1bc7c02/DATA/wangshiao/subway_MMR/hg_adapter/all_data"
+  # train_dir: synth
+  train_dir: Subway_dataset
+  batch_size: ${model.batch_size}
+  img_size: ${model.img_size}
+  charset_train: ${model.charset_train}
+  charset_test: ${model.charset_test}
+  max_label_length: ${model.max_label_length}
+  remove_whitespace: true
+  normalize_unicode: true
+  augment: true
+  num_workers: 8
+
+trainer:
+  _target_: pytorch_lightning.Trainer
+  _convert_: all
+  val_check_interval: 36
+  #max_steps: 169680  # 20 epochs x 8484 steps (for batch size = 384, real data)
+  max_epochs: 100
+  gradient_clip_val: 20
+  accelerator: gpu
+  devices: 2
+
+ckpt_path: null
+pretrained: null
+
+hydra:
+  output_subdir: config
+  run:
+    dir: outputs/${model.name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${model.name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ${hydra.job.override_dirname}
