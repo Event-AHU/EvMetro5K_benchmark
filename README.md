@@ -8,7 +8,8 @@
 * This work is accepted by IEEE Transactions on Cognitive and Developmental Systems (IEEE TCDS) 2026
 
 ### Framework
-<img src="https://github.com/Event-AHU/EvMetro5K_benchmark/blob/main/framework.jpg" width="600">
+<div align="center">
+<img src="https://github.com/Event-AHU/EvMetro5K_benchmark/blob/main/framework.jpg" width="700">
 
 ### 
 
